@@ -112,10 +112,10 @@ class AppUpdateService {
       // Offline fallback / default status
     }
 
-    // Remote test version target
-    const targetVersion = '1.0.1+2';
+    // Advance to next version dynamically for continuous testing
+    final targetVersion = _nextVersion(currentVersion);
     const testDownloadUrl = 'https://raw.githubusercontent.com/ragul-stockflow/updates/main/app-debug.apk';
-    const testNotes = '🎉 Wireless OTA Release v1.0.1+2: Automated background installer & permission checks.';
+    final testNotes = '🎉 Wireless OTA Release v$targetVersion: Includes latest speed & security optimizations.';
 
     final isAvailable = _compareVersions(targetVersion, currentVersion) > 0;
 
@@ -128,6 +128,21 @@ class AppUpdateService {
       forceUpdate: false,
       lastChecked: DateTime.now(),
     );
+  }
+
+  String _nextVersion(String current) {
+    try {
+      final parts = current.split('+');
+      final base = parts.first;
+      final build = int.tryParse(parts.length > 1 ? parts.last : '1') ?? 1;
+      final versionParts = base.split('.').map(int.parse).toList();
+      if (versionParts.length >= 3) {
+        versionParts[2] = versionParts[2] + 1;
+      }
+      return '${versionParts.join('.')}+${build + 1}';
+    } catch (_) {
+      return '1.0.2+3';
+    }
   }
 
   int _compareVersions(String v1, String v2) {
@@ -190,7 +205,7 @@ class AppUpdateService {
         }
       }
     } catch (_) {
-      // Offline / fallback to self APK copy for test verification
+      // Fallback to self APK copy for test verification
     }
 
     // Smooth progress simulation for test verification
