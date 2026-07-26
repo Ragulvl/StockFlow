@@ -1,6 +1,6 @@
 {
-  "version": "1.0.6+7",
+  "version": "1.0.7+8",
   "url": "https://raw.githubusercontent.com/Ragulvl/StockFlow/main/app-release.apk",
-  "notes": "✨ Clean Customer Update v1.0.6+7: Complete removal of test printer and test notification buttons for production release.",
+  "notes": "✨ Production Release v1.0.7+8: Verified 100% clean customer interface without developer test elements.",
   "force_update": false
 }

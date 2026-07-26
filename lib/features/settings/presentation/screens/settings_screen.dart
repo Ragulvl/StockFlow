@@ -43,7 +43,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool _showPan = false;
   bool _isLoading = true;
   bool _isSaving = false;
-  bool _isTestingPrinter = false;
+
 
   @override
   void initState() {
@@ -162,13 +162,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     _buildBackupCard(),
                     const SizedBox(height: 24),
 
-                    // 3. Mobile System Notification Test Card
-                    _buildNotificationCard(),
-                    const SizedBox(height: 24),
-
-                    // 4. Offline App Version & Auto-Update Card
+                    // 3. Offline App Version & Auto-Update Card
                     _buildAppUpdateCard(),
                     const SizedBox(height: 24),
+
 
 
 
@@ -943,77 +940,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
 
-  Widget _buildNotificationCard() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceCard,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.surface,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(Icons.notifications_active_rounded, color: AppColors.accentLime, size: 24),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Mobile Notifications', style: AppTypography.headingSmall),
-                      Text(
-                        'Android status bar alerts for low stock',
-                        style: AppTypography.bodySmall,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              minimumSize: Size.zero,
-            ),
-            onPressed: () async {
-              await NotificationService.instance.showLowStockNotification(
-                productName: 'Dark Chocolate Gummies',
-                currentStock: 15,
-              );
-              if (!mounted) return;
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  backgroundColor: AppColors.accentLime,
-                  content: Text(
-                    'Mobile status bar notification sent! Check phone top bar.',
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              );
-            },
-            icon: const Icon(Icons.send_rounded, size: 16),
-            label: const Text('Send Test Alert', style: TextStyle(fontSize: 12)),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildAppUpdateCard() {
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
