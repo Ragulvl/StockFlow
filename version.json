@@ -1,6 +1,6 @@
 {
-  "version": "1.0.3+4",
+  "version": "1.0.4+5",
   "url": "https://raw.githubusercontent.com/Ragulvl/StockFlow/main/app-release.apk",
-  "notes": "🚀 Wireless OTA Update v1.0.3+4: Remote manifest sync from GitHub, speed & database performance upgrades.",
+  "notes": "✨ Production Release v1.0.4+5: Clean customer interface, polished receipt printer settings, and performance enhancements.",
   "force_update": false
 }

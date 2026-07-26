@@ -702,7 +702,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Icon(Icons.cloud_upload_outlined, color: AppColors.accentYellow, size: 24),
+                  child: const Icon(Icons.backup_rounded, color: AppColors.accentLime, size: 24),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -710,12 +710,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Database Backup', style: AppTypography.headingSmall),
-                      Text(
-                        'Export offline data for phone migration',
-                        style: AppTypography.bodySmall,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      Text('Backup your inventory and sales records', style: AppTypography.bodySmall),
                     ],
                   ),
                 ),
@@ -725,15 +720,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           const SizedBox(width: 8),
           OutlinedButton.icon(
             style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              minimumSize: Size.zero,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              side: const BorderSide(color: AppColors.border),
             ),
             onPressed: () async {
-              final backupRepo = ref.read(backupRepositoryProvider);
-              final jsonBackup = await backupRepo.exportBackupJson();
-              await Clipboard.setData(ClipboardData(text: jsonBackup));
-
+              final jsonStr = await ref.read(backupServiceProvider).exportDataAsJson();
+              await Clipboard.setData(ClipboardData(text: jsonStr));
               if (!mounted) return;
+
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   backgroundColor: AppColors.accentLime,
@@ -787,15 +781,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                   color: AppColors.accentLime.withValues(alpha: 0.15),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: const Icon(Icons.wifi_protected_setup_rounded, color: AppColors.accentLime, size: 24),
+                                child: const Icon(Icons.system_update_rounded, color: AppColors.accentLime, size: 24),
                               ),
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Wireless OTA Update Center', style: AppTypography.headingSmall),
-                                    const Text('Remote Over-The-Air app update system', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
+                                    Text('App Update Center', style: AppTypography.headingSmall),
+                                    const Text('Check for the latest updates and software releases', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
                                   ],
                                 ),
                               ),
@@ -884,13 +878,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             children: [
                               Icon(Icons.cloud_sync_rounded, color: AppColors.accentLime, size: 16),
                               SizedBox(width: 6),
-                              Text('How Wireless OTA Updates Work:', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 12)),
+                              Text('How App Updates Work:', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 12)),
                             ],
                           ),
                           const SizedBox(height: 6),
-                          const Text('• Developers in Coimbatore release a new update.', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
-                          const Text('• Customers in Bangalore tap "Check Wireless Update".', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
-                          const Text('• The app downloads the new APK over Wi-Fi/4G/5G and installs automatically on their phone.', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
+                          const Text('• Tap "Check Wireless Update" to search for new app releases.', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
+                          const Text('• Download and install updates automatically over Wi-Fi or mobile data.', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
                           if (isDownloading) ...[
                             const SizedBox(height: 10),
                             LinearProgressIndicator(value: downloadProgress, backgroundColor: AppColors.border, color: AppColors.accentLime),
