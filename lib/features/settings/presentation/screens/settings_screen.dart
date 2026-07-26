@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/notifications/notification_service.dart';
-import '../../../../core/printer/esc_pos_builder.dart';
-import '../../../../core/printer/receipt_data.dart';
+
 import '../../../../core/printer/usb_printer_adapter.dart';
 import '../../../../core/services/app_update_service.dart';
 import '../../../../core/theme/app_colors.dart';
