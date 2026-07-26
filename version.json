@@ -1,6 +1,6 @@
 {
-  "version": "1.0.4+5",
+  "version": "1.0.6+7",
   "url": "https://raw.githubusercontent.com/Ragulvl/StockFlow/main/app-release.apk",
-  "notes": "✨ Production Release v1.0.4+5: Clean customer interface, polished receipt printer settings, and performance enhancements.",
+  "notes": "✨ Clean Customer Update v1.0.6+7: Complete removal of test printer and test notification buttons for production release.",
   "force_update": false
 }

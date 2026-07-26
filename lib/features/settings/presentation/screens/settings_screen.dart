@@ -612,75 +612,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             icon: const Icon(Icons.search_rounded, size: 16),
             label: const Text('Scan Connected USB Devices', style: TextStyle(fontSize: 12)),
           ),
-          const SizedBox(height: 12),
-
-          // Execute Test Print Button
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.surface,
-              foregroundColor: AppColors.textPrimary,
-              side: const BorderSide(color: AppColors.border),
-            ),
-            onPressed: _isTestingPrinter
-                ? null
-                : () async {
-                    setState(() => _isTestingPrinter = true);
-                    try {
-                      final testData = ReceiptData(
-                        storeName: _nameController.text.trim().isEmpty ? 'ChocoGummy Delights' : _nameController.text.trim(),
-                        storeTagline: 'Hardware Test Print',
-                        storeAddress: '123 Sweet Street, Candy City',
-                        billNumber: 'TEST-0001',
-                        dateTime: DateTime.now(),
-                        paymentMethod: 'CASH',
-                        items: [
-                          ReceiptItemData(
-                            name: 'Test Dark Gummy',
-                            unitType: 'PACK',
-                            quantity: 1,
-                            unitPrice: 135.0,
-                            totalPrice: 135.0,
-                          ),
-                        ],
-                        subtotal: 135.0,
-                        grandTotal: 135.0,
-                        receiptFooter: 'Printer Test Successful!',
-                      );
-
-                      final testBytes = EscPosBuilder.buildReceiptBytes(testData);
-                      final success = await printerRepo.printReceiptBytes(testBytes);
-
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: success ? AppColors.accentLime : AppColors.danger,
-                          content: Text(
-                            success ? 'Test print dispatched successfully!' : 'Printer error: Connect printer via USB OTG adapter & allow permission',
-                            style: TextStyle(color: success ? Colors.black : Colors.white, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      );
-                    } catch (e) {
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: AppColors.danger,
-                          content: Text('Test print error: $e'),
-                        ),
-                      );
-                    } finally {
-                      if (mounted) setState(() => _isTestingPrinter = false);
-                    }
-                  },
-            icon: const Icon(Icons.print_rounded, size: 18),
-            label: _isTestingPrinter
-                ? const SizedBox(height: 18, width: 18, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                : const Text('Execute ESC/POS Test Print'),
-          ),
         ],
       ),
     );
   }
+
+
 
   Widget _buildBackupCard() {
     return Container(

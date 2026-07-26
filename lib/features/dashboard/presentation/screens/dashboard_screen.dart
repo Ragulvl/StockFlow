@@ -590,63 +590,6 @@ class DashboardScreen extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 12),
-
-                      // 3. Test Mobile System Notification Card
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: AppColors.surface,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.border),
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: AppColors.accentLime.withValues(alpha: 0.15),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Icon(Icons.send_rounded, color: AppColors.accentLime, size: 20),
-                            ),
-                            const SizedBox(width: 12),
-                            const Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Test Mobile Alert', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
-                                  Text('Send status bar alert to phone', style: TextStyle(color: AppColors.textSecondary, fontSize: 11)),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.accentLime,
-                                foregroundColor: Colors.black,
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                minimumSize: Size.zero,
-                              ),
-                              onPressed: () async {
-                                Navigator.pop(dialogContext);
-                                await NotificationService.instance.showNotification(
-                                  title: '📱 StockFlow Mobile Notification',
-                                  body: 'System notification test successful! Check your phone status bar.',
-                                );
-                                if (context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      backgroundColor: AppColors.accentLime,
-                                      content: Text('Test notification sent to phone status bar!', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: const Text('Test Alert', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
