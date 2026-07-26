@@ -1,6 +1,6 @@
 {
-  "version": "1.0.8+9",
+  "version": "1.0.9+10",
   "url": "https://raw.githubusercontent.com/Ragulvl/StockFlow/main/app-release.apk",
-  "notes": "✨ Production Release v1.0.8+9: Added Clear Sales History reset tool under Settings.",
+  "notes": "✨ v1.0.9: Polished for customer delivery — simplified settings, cleaned up all technical labels, and improved wording throughout the app.",
   "force_update": false
 }

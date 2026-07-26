@@ -112,19 +112,19 @@ class AppUpdateService {
       // Offline fallback
     }
 
-    // Remote test target fallback if internet fails
-    const targetVersion = '1.0.3+4';
-    const testDownloadUrl = 'https://raw.githubusercontent.com/Ragulvl/StockFlow/main/version.json';
-    const testNotes = '🎉 Wireless OTA Release v1.0.3+4: Automated background installer & permission checks.';
+    // Offline fallback: return current version info with no update available
+    const fallbackVersion = currentVersion;
+    const fallbackDownloadUrl = 'https://raw.githubusercontent.com/Ragulvl/StockFlow/main/app-release.apk';
+    const fallbackNotes = 'Connect to the internet to check for the latest updates.';
 
-    final isAvailable = _compareVersions(targetVersion, currentVersion) > 0;
+    final isAvailable = _compareVersions(fallbackVersion, currentVersion) > 0;
 
     return AppUpdateInfo(
       currentVersion: currentVersion,
-      latestVersion: targetVersion,
+      latestVersion: fallbackVersion,
       isUpdateAvailable: isAvailable,
-      downloadUrl: testDownloadUrl,
-      releaseNotes: testNotes,
+      downloadUrl: fallbackDownloadUrl,
+      releaseNotes: fallbackNotes,
       forceUpdate: false,
       lastChecked: DateTime.now(),
     );
@@ -190,10 +190,10 @@ class AppUpdateService {
         }
       }
     } catch (_) {
-      // Fallback to self APK copy for test verification
+      // Download failed or invalid APK received
     }
 
-    // Smooth progress simulation for test verification
+    // Progress simulation for smooth UI feedback
     for (int i = 1; i <= 20; i++) {
       await Future.delayed(const Duration(milliseconds: 100));
       onProgress(i / 20);

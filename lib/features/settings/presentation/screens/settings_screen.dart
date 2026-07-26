@@ -131,8 +131,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('App Settings & Hardware', style: AppTypography.headingMedium),
-                            Text('Configure business details & USB ESC/POS thermal printer', style: AppTypography.bodySmall),
+                            Text('Settings', style: AppTypography.headingMedium),
+                            Text('Manage your business details, printer & receipt settings', style: AppTypography.bodySmall),
                           ],
                         ),
                         Container(
@@ -142,7 +142,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             border: Border.all(color: AppColors.border),
                           ),
                           child: IconButton(
-                            tooltip: 'System Diagnostics & Info',
+                            tooltip: 'App Updates',
                             icon: const Icon(Icons.settings_rounded, color: AppColors.accentLime),
                             onPressed: () => _showDiagnosticsModal(context),
                           ),
@@ -464,8 +464,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('USB ESC/POS Thermal Printer', style: AppTypography.headingSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
-                          Text('Target: ${printerRepo.activeAdapter.name}', style: AppTypography.bodySmall.copyWith(color: AppColors.accentLime), maxLines: 1, overflow: TextOverflow.ellipsis),
+                          Text('Receipt Printer', style: AppTypography.headingSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+                          Text('Connected via USB to your phone', style: AppTypography.bodySmall.copyWith(color: AppColors.accentLime), maxLines: 1, overflow: TextOverflow.ellipsis),
                         ],
                       ),
                     ),
@@ -556,8 +556,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                         isSelected ? Icons.print_rounded : Icons.usb_rounded,
                                         color: isSelected ? AppColors.accentLime : AppColors.textMuted,
                                       ),
-                                      title: Text(dev.deviceName, style: AppTypography.labelMedium.copyWith(color: isSelected ? AppColors.accentLime : AppColors.textPrimary)),
-                                      subtitle: Text('VID: 0x${dev.vid?.toRadixString(16) ?? '0'} | PID: 0x${dev.pid?.toRadixString(16) ?? '0'}', style: AppTypography.bodySmall),
+                                       title: Text(dev.deviceName, style: AppTypography.labelMedium.copyWith(color: isSelected ? AppColors.accentLime : AppColors.textPrimary)),
+                                       subtitle: Text('USB Printer Device', style: AppTypography.bodySmall),
                                       trailing: isSelected
                                           ? Container(
                                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -703,7 +703,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             backgroundColor: AppColors.accentLime,
-                            content: Text('All test sales & bills cleared successfully!', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                            content: Text('All bills and sales history have been cleared.', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                           ),
                         );
                       },
@@ -1010,7 +1010,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     children: [
                       Text('App Version & Updates', style: AppTypography.headingSmall),
                       Text(
-                        'v1.0.0+1 (Offline Version Control)',
+                        'Keep your app up to date wirelessly',
                         style: AppTypography.bodySmall,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
