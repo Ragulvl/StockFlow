@@ -29,7 +29,7 @@ class AppUpdateService {
   AppUpdateService._();
   static final AppUpdateService instance = AppUpdateService._();
 
-  static const String _kDefaultVersion = '1.0.0+1';
+  static const String _kDefaultVersion = '1.0.9+10';
   static const String _kLastCheckKey = 'last_app_update_check';
   static const String _kInstalledVersionKey = 'installed_app_version';
 
@@ -113,7 +113,7 @@ class AppUpdateService {
     }
 
     // Offline fallback: return current version info with no update available
-    const fallbackVersion = currentVersion;
+    final fallbackVersion = currentVersion;
     const fallbackDownloadUrl = 'https://raw.githubusercontent.com/Ragulvl/StockFlow/main/app-release.apk';
     const fallbackNotes = 'Connect to the internet to check for the latest updates.';
 
