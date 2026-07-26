@@ -228,6 +228,12 @@ class AppDatabase extends _$AppDatabase {
     return BillWithItems(bill: bill, items: items);
   }
 
+  Future<void> deleteAllBills() async {
+    await delete(billItems).go();
+    await delete(bills).go();
+  }
+
+
   // Settings Queries
   Future<Map<String, String>> getAllSettings() async {
     final list = await select(settings).get();

@@ -148,4 +148,11 @@ class BillRepository {
 
     return _mapToDomain(result.bill, result.items);
   }
+
+  /// Clears all past sales/bills history from local storage
+  Future<void> clearAllBills() async {
+    await _db.deleteAllBills();
+    AppLogger.info("All sales and bills history cleared", "BillRepository");
+  }
 }
+

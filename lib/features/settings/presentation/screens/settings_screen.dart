@@ -677,10 +677,52 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             icon: const Icon(Icons.copy_rounded, size: 16),
             label: const Text('Export JSON', style: TextStyle(fontSize: 12)),
           ),
+          const SizedBox(width: 8),
+
+          OutlinedButton.icon(
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              side: const BorderSide(color: AppColors.danger),
+            ),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (dialogContext) => AlertDialog(
+                  backgroundColor: AppColors.surfaceCard,
+                  title: const Text('Reset Sales & Bills History?', style: TextStyle(color: AppColors.danger, fontWeight: FontWeight.bold)),
+                  content: const Text('This will permanently delete all past invoices and reset sales figures. Your inventory stock will NOT be deleted.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(dialogContext),
+                      child: const Text('Cancel', style: TextStyle(color: AppColors.textMuted)),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: AppColors.danger),
+                      onPressed: () async {
+                        Navigator.pop(dialogContext);
+                        await ref.read(billRepositoryProvider).clearAllBills();
+                        if (!mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            backgroundColor: AppColors.accentLime,
+                            content: Text('All test sales & bills cleared successfully!', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                          ),
+                        );
+                      },
+                      child: const Text('Delete All Bills', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              );
+            },
+            icon: const Icon(Icons.delete_sweep_rounded, size: 16, color: AppColors.danger),
+            label: const Text('Clear Sales Data', style: TextStyle(fontSize: 11, color: AppColors.danger)),
+          ),
         ],
       ),
     );
   }
+
 
   void _showDiagnosticsModal(BuildContext context) {
     showDialog(
