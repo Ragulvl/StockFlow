@@ -835,7 +835,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Current Installed Build: v1.0.0+1', style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
+                                Text('Current Installed Build: v${updateInfo?.currentVersion ?? "1.0.0+1"}', style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
                                 Text(
                                   updateInfo?.isUpdateAvailable == true
                                       ? 'New Version Available: v${updateInfo!.latestVersion}'
@@ -956,19 +956,41 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                         isDownloading = true;
                                         downloadProgress = 0.0;
                                       });
-                                      final file = await AppUpdateService.instance.downloadApk(
-                                        updateInfo!.downloadUrl,
-                                        (prog) => setModalState(() => downloadProgress = prog),
-                                      );
-                                      setModalState(() => isDownloading = false);
+                                      try {
+                                        final file = await AppUpdateService.instance.downloadApk(
+                                          updateInfo!.downloadUrl,
+                                          (prog) => setModalState(() => downloadProgress = prog),
+                                        );
+                                        setModalState(() => isDownloading = false);
 
-                                      if (file != null) {
-                                        await AppUpdateService.instance.installDownloadedApk(file);
+                                        if (file != null && dialogContext.mounted) {
+                                          await AppUpdateService.instance.installDownloadedApk(file, newVersion: updateInfo?.latestVersion);
+                                          if (dialogContext.mounted) {
+                                            ScaffoldMessenger.of(dialogContext).showSnackBar(
+                                              const SnackBar(
+                                                backgroundColor: AppColors.accentLime,
+                                                content: Text('📱 System PackageInstaller launched! Tap Install on screen.', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      } catch (e) {
+                                        setModalState(() => isDownloading = false);
+                                        if (dialogContext.mounted) {
+                                          ScaffoldMessenger.of(dialogContext).showSnackBar(
+                                            SnackBar(
+                                              backgroundColor: AppColors.danger,
+                                              content: Text('Update launch: $e', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                            ),
+                                          );
+                                        }
                                       }
                                     } else {
                                       Navigator.pop(dialogContext);
                                     }
                                   },
+
+
                             icon: Icon(updateInfo?.isUpdateAvailable == true ? Icons.cloud_download_rounded : Icons.check_circle_rounded, size: 16),
                             label: Text(
                               updateInfo?.isUpdateAvailable == true ? 'Download & Install' : 'Done',
