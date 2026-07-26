@@ -118,14 +118,14 @@ class UsbPrinterAdapter implements PrinterAdapter {
       }
 
       try {
-        await port?.setDTR(true);
-        await port?.setRTS(true);
+        await port!.setDTR(true);
+        await port!.setRTS(true);
       } catch (e) {
         AppLogger.warning("DTR/RTS not supported on printer endpoint", e, "UsbPrinterAdapter");
       }
 
       try {
-        await port?.setPortParameters(
+        await port!.setPortParameters(
           9600,
           UsbPort.DATABITS_8,
           UsbPort.STOPBITS_1,
@@ -135,7 +135,7 @@ class UsbPrinterAdapter implements PrinterAdapter {
         AppLogger.warning("Port parameters not supported on printer endpoint", e, "UsbPrinterAdapter");
       }
 
-      await port?.write(bytes);
+      await port!.write(bytes);
       await Future.delayed(const Duration(milliseconds: 300)); // Buffer flush delay
 
       AppLogger.info("Successfully flushed ${bytes.length} bytes to USB printer", "UsbPrinterAdapter");
