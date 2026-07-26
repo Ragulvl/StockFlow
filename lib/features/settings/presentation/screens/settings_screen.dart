@@ -724,9 +724,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               side: const BorderSide(color: AppColors.border),
             ),
             onPressed: () async {
-              final jsonStr = await ref.read(backupServiceProvider).exportDataAsJson();
+              final backupRepo = ref.read(backupRepositoryProvider);
+              final jsonStr = await backupRepo.exportBackupJson();
               await Clipboard.setData(ClipboardData(text: jsonStr));
               if (!mounted) return;
+
 
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
