@@ -33,8 +33,8 @@ class AppUpdateService {
   static const String _kLastCheckKey = 'last_app_update_check';
   static const String _kInstalledVersionKey = 'installed_app_version';
 
-  // Remote Version Manifest URL
-  static const String updateManifestUrl = 'https://raw.githubusercontent.com/ragul-stockflow/updates/main/version.json';
+  // Real Remote Version Manifest URL on GitHub Raw
+  static const String updateManifestUrl = 'https://raw.githubusercontent.com/Ragulvl/StockFlow/main/version.json';
 
   Future<String> getCurrentInstalledVersion() async {
     try {
@@ -88,7 +88,7 @@ class AppUpdateService {
     final currentVersion = await getCurrentInstalledVersion();
 
     try {
-      final response = await http.get(Uri.parse(updateManifestUrl)).timeout(const Duration(seconds: 5));
+      final response = await http.get(Uri.parse(updateManifestUrl)).timeout(const Duration(seconds: 8));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final latestVersion = data['version'] as String? ?? currentVersion;
@@ -102,19 +102,19 @@ class AppUpdateService {
           currentVersion: currentVersion,
           latestVersion: latestVersion,
           isUpdateAvailable: isAvailable,
-          downloadUrl: downloadUrl,
+          downloadUrl: downloadUrl.isNotEmpty ? downloadUrl : 'https://raw.githubusercontent.com/Ragulvl/StockFlow/main/app-release.apk',
           releaseNotes: notes,
           forceUpdate: force,
           lastChecked: DateTime.now(),
         );
       }
     } catch (_) {
-      // Offline fallback / default status
+      // Offline fallback
     }
 
-    // Explicit remote test update target version 1.0.3+4
+    // Remote test target fallback if internet fails
     const targetVersion = '1.0.3+4';
-    const testDownloadUrl = 'https://raw.githubusercontent.com/ragul-stockflow/updates/main/app-debug.apk';
+    const testDownloadUrl = 'https://raw.githubusercontent.com/Ragulvl/StockFlow/main/version.json';
     const testNotes = '🎉 Wireless OTA Release v1.0.3+4: Automated background installer & permission checks.';
 
     final isAvailable = _compareVersions(targetVersion, currentVersion) > 0;
@@ -170,7 +170,7 @@ class AppUpdateService {
     try {
       final client = http.Client();
       final request = http.Request('GET', Uri.parse(url));
-      final response = await client.send(request).timeout(const Duration(seconds: 10));
+      final response = await client.send(request).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200 && (response.contentLength ?? 0) > 1000) {
         final totalBytes = response.contentLength ?? 1;

@@ -1,0 +1,6 @@
+{
+  "version": "1.0.3+4",
+  "url": "https://raw.githubusercontent.com/Ragulvl/StockFlow/main/app-release.apk",
+  "notes": "🚀 Wireless OTA Update v1.0.3+4: Remote manifest sync from GitHub, speed & database performance upgrades.",
+  "force_update": false
+}
